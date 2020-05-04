@@ -8,22 +8,19 @@ class TextProperties {
   String text;
   double fontSize;
   Color fontColor;
-  double textBoxWidth;
   Color bgColor;
   bool isTrasparent;
   TextProperties(
       {this.text,
       this.fontSize,
       this.fontColor,
-      this.textBoxWidth,
       this.bgColor,
       this.isTrasparent});
 }
 
 class EditTextProperties extends StatefulWidget {
-  EditTextProperties({Key key, this.textProperties, this.maxTextWidth}) : super(key: key);
+  EditTextProperties({Key key, this.textProperties}) : super(key: key);
   final textProperties;
-  final maxTextWidth;
 
   @override
   EditTextPropertiesState createState() => EditTextPropertiesState();
@@ -33,12 +30,6 @@ class EditTextPropertiesState extends State<EditTextProperties> {
   var _controller;
   TextProperties editProperties;
 
-  double maxFontSize;
-  double minFontSize;
-
-  double maxTextWidth;
-  double minTextWidth;
-
 
 
   EditTextPropertiesState();
@@ -46,10 +37,7 @@ class EditTextPropertiesState extends State<EditTextProperties> {
   @override
   void initState() {
     super.initState();
-    maxFontSize = 100;
-    minFontSize = 10;
     editProperties = widget.textProperties;
-    maxTextWidth=widget.maxTextWidth;
     _controller = TextEditingController(text: editProperties.text);
   }
 
@@ -85,45 +73,6 @@ class EditTextPropertiesState extends State<EditTextProperties> {
                       textProperties.text = val;
                     });
                   },
-                ),
-              ),
-              ContainerWithPadding(
-                child: ListTile(
-                  title: Text(
-                    'Change Font Size',
-                    style: dialogOptions,
-                  ),
-                  subtitle: Slider(
-                      max: maxFontSize,
-                      min: minFontSize,
-                      value: textProperties.fontSize,
-                      activeColor: Colors.blue,
-                      inactiveColor: Colors.black,
-                      onChanged: (val) {
-                        setState(() {
-                          textProperties.fontSize = val;
-                        });
-                      }),
-                ),
-              ),
-              ContainerWithPadding(
-                child: ListTile(
-                  title: Text(
-                    'Change Text Box Width',
-                    style: dialogOptions,
-                  ),
-                  subtitle: Slider(
-                      max: maxTextWidth,
-                      min: maxTextWidth*0.1,
-                      value: textProperties.textBoxWidth,
-                      activeColor: Colors.blue,
-                      inactiveColor: Colors.black,
-                      onChanged: (val) {
-                        setState(() {
-                          textProperties.textBoxWidth = val;
-                          //print(selectedTextWidth);
-                        });
-                      }),
                 ),
               ),
               changeColor(true),

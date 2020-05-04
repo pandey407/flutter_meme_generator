@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meme_generator/screens/netowrk_memes.dart';
 import 'package:meme_generator/utils/custom_page_router.dart';
 import 'package:meme_generator/utils/painter.dart';
+import 'package:meme_generator/utils/resizeable.dart';
 import 'package:meme_generator/utils/text_properties.dart';
 import 'package:meme_generator/utils/text_styles.dart';
 import 'package:meme_generator/widget/floating_action_extended_animator.dart';
@@ -88,19 +89,19 @@ class ImageToGenerateState extends State<ImageToGenerate> {
     );
   }
 
- Future<Size> getImageSize() async {
+  Future<Size> getImageSize() async {
     if (_image != null) {
       var decodedSize = await decodeImageFromList(_image.readAsBytesSync());
       imageHeight = decodedSize.height.toDouble();
       imageWidth = decodedSize.width.toDouble();
-      return Size(imageWidth,imageHeight);
+      return Size(imageWidth, imageHeight);
     }
     if (imgUrl != null) {
       imageHeight = widget.height;
       imageWidth = widget.width;
       return Size(imageWidth, imageHeight);
     }
-    return Size(0,0);
+    return Size(0, 0);
   }
 
   takeScreenShot() async {
@@ -164,10 +165,9 @@ class ImageToGenerateState extends State<ImageToGenerate> {
       _getSize();
     });
     TextProperties textProperties = new TextProperties(
-      fontSize: 40,
+      fontSize: 30,
       fontColor: Colors.black,
       text: '',
-      textBoxWidth: sizeContainer.width * 0.2,
       bgColor: Colors.white,
       isTrasparent: false,
     );
@@ -175,7 +175,6 @@ class ImageToGenerateState extends State<ImageToGenerate> {
       context: context,
       builder: (context) => EditTextProperties(
         textProperties: textProperties,
-        maxTextWidth: sizeContainer.width,
       ),
       barrierDismissible: false,
     ).then((_) {
@@ -183,11 +182,10 @@ class ImageToGenerateState extends State<ImageToGenerate> {
     });
     setState(() {
       _getSize();
-      movableItems.add(MoveableStackItem(
-        bottom: sizeContainer.height,
-        right: sizeContainer.width,
+      movableItems.add(ResizebleWidget(
+        bottomBoundary: sizeContainer.height,
+        rightBoundary: sizeContainer.width,
         textProperties: textProperties,
-        moveableItems: movableItems,
       ));
     });
   }

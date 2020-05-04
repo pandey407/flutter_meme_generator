@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:meme_generator/utils/resizeable.dart';
 import '../utils/text_properties.dart';
 
 class MoveableStackItem extends StatefulWidget {
   final double bottom, right;
-  final List moveableItems;
+
   final textProperties;
 
   MoveableStackItem({
     Key key,
     this.bottom,
     this.right,
-    this.moveableItems,
     this.textProperties,
   }) : super(key: key);
   @override
@@ -44,16 +44,13 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
 
   @override
   Widget build(BuildContext context) {
-    
     //print(sizeText);
     return Stack(
-      fit: StackFit.expand,
       children: <Widget>[
         Positioned(
           top: yPosition,
           left: xPosition,
           child: GestureDetector(
-
             onPanEnd: (tapInfo) {
               setState(() {
                 _dragging = false;
@@ -90,7 +87,6 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
                   context: context,
                   builder: (context) => EditTextProperties(
                     textProperties: textProperties,
-                    maxTextWidth: widget.right,
                   ),
                   barrierDismissible: false,
                 ).then((_) {
@@ -99,8 +95,6 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
               },
               child: Container(
                 key: _textKey,
-                width: textProperties.textBoxWidth,
-                //color: Colors.white70,
                 decoration: BoxDecoration(
                     border: _dragging
                         ? Border.all(
@@ -112,10 +106,9 @@ class _MoveableStackItemState extends State<MoveableStackItem> {
                   child: Text(
                     textProperties.text.toUpperCase(),
                     textAlign: TextAlign.center,
-                    textScaleFactor: 2 ,
+                    textScaleFactor: 2,
                     style: TextStyle(
                       backgroundColor: textProperties.bgColor,
-                      
                       fontSize: textProperties.fontSize,
                       color: textProperties.fontColor,
                       fontWeight: FontWeight.w400,
